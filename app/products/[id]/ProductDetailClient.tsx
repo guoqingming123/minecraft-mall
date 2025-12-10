@@ -308,10 +308,12 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
             >
               <div className="aspect-square p-4 flex items-center justify-center bg-gray-50">
 
-                <img
+                <Image
                   src={`/images/史蒂夫和苦力怕.png`}
                   alt="推荐商品"
-                  className="max-w-full max-h-full object-contain"
+                  width={100}
+                  height={100}
+                  className="object-contain"
                 />
 
               </div>
