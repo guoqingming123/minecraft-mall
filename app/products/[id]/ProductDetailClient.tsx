@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 interface Product {
   id: number
@@ -64,9 +65,11 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
         <div className="w-full md:w-1/2">
           <div className="bg-white rounded-lg p-4 shadow-sm mb-4">
             <div className="relative aspect-square overflow-hidden rounded">
-              <img
-                src={product.images[selectedImage]}
+              <Image
+                src={`/images/${product.images[selectedImage].split('/').pop()}`}
                 alt={`${product.name} - 图片 ${selectedImage + 1}`}
+                width={800}
+                height={800}
                 className="w-full h-full object-contain"
               />
             </div>
@@ -80,9 +83,11 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
                 }`}
                 onClick={() => setSelectedImage(index)}
               >
-                <img
-                  src={image}
+                <Image
+                  src={`/images/${image.split('/').pop()}`}
                   alt={`缩略图 ${index + 1}`}
+                  width={200}
+                  height={200}
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -302,11 +307,13 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
               className="bg-white rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow"
             >
               <div className="aspect-square p-4 flex items-center justify-center bg-gray-50">
+
                 <img
                   src={`/images/史蒂夫和苦力怕.png`}
                   alt="推荐商品"
                   className="max-w-full max-h-full object-contain"
                 />
+
               </div>
               <div className="p-3">
                 <h3 className="text-sm font-medium text-gray-800 line-clamp-2 h-12">
