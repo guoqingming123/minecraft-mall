@@ -2,8 +2,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { useRouter } from 'next/navigation'
 
 // 模拟商品数据
 const allProducts = [
@@ -77,16 +76,40 @@ const ProductsPage = () => {
   const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('default')
+  const router = useRouter()
 
   // 从URL查询参数中获取分类
   useEffect(() => {
-    // 直接从window.location获取查询参数，避免使用useSearchParams导致的构建错误
-    const urlParams = new URLSearchParams(window.location.search)
-    const categoryParam = urlParams.get('category')
-    if (categoryParam) {
-      setSelectedCategory(categoryParam)
+    const getCategoryFromUrl = () => {
+      const urlParams = new URLSearchParams(window.location.search)
+      const categoryParam = urlParams.get('category')
+      if (categoryParam) {
+        setSelectedCategory(categoryParam)
+      } else {
+        setSelectedCategory('all')
+      }
     }
-  }, [])
+
+    // 初始加载时获取分类
+    getCategoryFromUrl()
+
+    // 监听URL变化
+    const handleUrlChange = () => {
+      getCategoryFromUrl()
+    }
+
+    // 添加事件监听器
+    window.addEventListener('popstate', handleUrlChange)
+    window.addEventListener('pushstate', handleUrlChange)
+    window.addEventListener('replacestate', handleUrlChange)
+
+    // 清理函数
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange)
+      window.removeEventListener('pushstate', handleUrlChange)
+      window.removeEventListener('replacestate', handleUrlChange)
+    }
+  }, [router])
 
   // 筛选商品
   const filteredProducts = allProducts.filter(product => {
