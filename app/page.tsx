@@ -1,6 +1,7 @@
 "use client"
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 // 模拟商品数据
 const newProducts = [
@@ -66,18 +67,21 @@ const hotProducts = [
 ]
 
 const Home = () => {
+  const pathname = usePathname()
+  // 从路径名中提取basePath
+  const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
 
   return (
     <div>
       {/* 轮播图 */}
       <div className="relative w-full h-[400px] bg-gray-200 overflow-hidden">
             <Image
-              src="/images/我的世界.jpeg"
-              alt="我的世界乐高商城"
-              width={1200}
-              height={400}
-              className="object-cover w-full h-full"
-            />
+                src={`${basePath}/images/我的世界.jpeg`}
+                alt="我的世界乐高商城"
+                width={1200}
+                height={400}
+                className="object-cover w-full h-full"
+              />
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="text-center text-white">
             <h1 className="text-4xl font-bold mb-4">欢迎来到我的世界乐高商城</h1>
@@ -98,7 +102,7 @@ const Home = () => {
               <Link key={product.id} href={`/products/${product.id}`} className="card">
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
                   <Image
-                    src={product.image}
+                    src={`${basePath}${product.image}`}
                     alt={product.name}
                     width={200}
                     height={200}
