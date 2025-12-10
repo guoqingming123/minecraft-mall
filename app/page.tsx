@@ -7,28 +7,28 @@ const newProducts = [
     id: 1,
     name: '乐高我的世界 史蒂夫和苦力怕',
     price: 99,
-    image: '/images/史蒂夫和苦力怕.png',
+    image: 'images/史蒂夫和苦力怕.png',
     category: 'figures'
   },
   {
     id: 2,
     name: '乐高我的世界 末地传送门',
     price: 299,
-    image: '/images/末地传送门.png',
+    image: 'images/末地传送门.png',
     category: 'sets'
   },
   {
     id: 3,
     name: '乐高我的世界 村庄',
     price: 499,
-    image: '/images/村庄.png',
+    image: 'images/村庄.png',
     category: 'buildings'
   },
   {
     id: 4,
     name: '乐高我的世界 钻石剑',
     price: 59,
-    image: '/images/钻石剑.png',
+    image: 'images/钻石剑.png',
     category: 'accessories'
   }
 ]
@@ -38,28 +38,28 @@ const hotProducts = [
     id: 5,
     name: '乐高我的世界 凋灵',
     price: 199,
-    image: '/images/下界凋灵.png',
+    image: 'images/下界凋灵.png',
     category: 'figures'
   },
   {
     id: 6,
     name: '乐高我的世界 下界堡垒',
     price: 399,
-    image: '/images/下界堡垒.png',
+    image: 'images/下界堡垒.png',
     category: 'buildings'
   },
   {
     id: 7,
     name: '乐高我的世界 红石矿井',
     price: 249,
-    image: '/images/红石矿井.png',
+    image: 'images/红石矿井.png',
     category: 'sets'
   },
   {
     id: 8,
     name: '乐高我的世界 盾牌',
     price: 49,
-    image: '/images/盾牌.png',
+    image: 'images/盾牌.png',
     category: 'accessories'
   }
 ]
@@ -71,7 +71,7 @@ const Home = () => {
       {/* 轮播图 */}
       <div className="relative w-full h-[400px] bg-gray-200 overflow-hidden">
           <img
-            src="/images/我的世界.jpeg"
+            src="images/我的世界.jpeg"
             alt="我的世界乐高商城"
             className="object-cover w-full h-full"
           />
