@@ -10,11 +10,13 @@ const allProducts = [
     originalPrice: 129,
     rating: 4.8,
     reviewCount: 123,
+
     images: [
       '/images/史蒂夫和苦力怕.png',
       '/images/史蒂夫和苦力怕.png',
       '/images/史蒂夫和苦力怕.png'
     ],
+
     description: '这款乐高我的世界套装包含史蒂夫和苦力怕两个经典角色，适合6岁以上儿童玩耍。套装包含多种配件，可以搭建出丰富的场景。',
     size: ['标准尺寸'],
     category: 'figures',
