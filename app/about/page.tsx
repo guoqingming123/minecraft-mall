@@ -2,6 +2,8 @@
 import Image from 'next/image'
 
 const AboutPage = () => {
+  const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">关于我们</h1>
@@ -64,7 +66,7 @@ const AboutPage = () => {
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
             <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-secondary shadow-lg">
               <Image
-                src="/images/元宝.png"
+                src={`${basePath}/images/元宝.png`}
                 alt="元宝"
                 width={128}
                 height={128}
@@ -77,7 +79,7 @@ const AboutPage = () => {
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
             <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-secondary shadow-lg">
               <Image
-                src="/images/元宝2.jpg"
+                src={`${basePath}/images/元宝2.jpg`}
                 alt="元宝2"
                 width={128}
                 height={128}
@@ -90,7 +92,7 @@ const AboutPage = () => {
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
             <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-secondary shadow-lg">
               <Image
-                src="/images/元宝3.png"
+                src={`${basePath}/images/元宝3.png`}
                 alt="元宝3"
                 width={128}
                 height={128}
@@ -103,7 +105,7 @@ const AboutPage = () => {
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
             <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-secondary shadow-lg">
               <Image
-                src="/images/元宝4.jpg"
+                src={`${basePath}/images/元宝4.jpg`}
                 alt="元宝4"
                 width={128}
                 height={128}
