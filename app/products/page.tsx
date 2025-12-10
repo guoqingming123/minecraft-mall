@@ -72,6 +72,7 @@ const allProducts = [
 ]
 
 const ProductsPage = () => {
+  const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('default')
 
@@ -176,7 +177,7 @@ const ProductsPage = () => {
               <Link key={product.id} href={`/products/${product.id}`} className="card">
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
                   <Image
-                    src={product.image}
+                    src={`${basePath}${product.image}`}
                     alt={product.name}
                     width={200}
                     height={200}
