@@ -1,7 +1,8 @@
 "use client"
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 // 模拟商品数据
 const allProducts = [
@@ -75,6 +76,15 @@ const ProductsPage = () => {
   const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('default')
+  const searchParams = useSearchParams()
+
+  // 从URL查询参数中获取分类
+  useEffect(() => {
+    const categoryParam = searchParams.get('category')
+    if (categoryParam) {
+      setSelectedCategory(categoryParam)
+    }
+  }, [searchParams])
 
   // 筛选商品
   const filteredProducts = allProducts.filter(product => {
