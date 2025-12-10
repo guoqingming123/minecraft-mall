@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 // 模拟商品数据
 const allProducts = [
@@ -71,45 +71,25 @@ const allProducts = [
     rating: 4.5
   }
 ]
-
 const ProductsPage = () => {
   const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
-  const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('default')
   const router = useRouter()
+  const searchParams = useSearchParams()
+  
+  // 直接从searchParams获取分类，不需要状态管理
+  const selectedCategory = searchParams.get('category') || 'all'
 
-  // 从URL查询参数中获取分类
-  useEffect(() => {
-    const getCategoryFromUrl = () => {
-      const urlParams = new URLSearchParams(window.location.search)
-      const categoryParam = urlParams.get('category')
-      if (categoryParam) {
-        setSelectedCategory(categoryParam)
-      } else {
-        setSelectedCategory('all')
-      }
-    }
+  // 分类选择处理函数
+  const handleCategorySelect = (category: string) => {
+    const url = category === 'all' 
+      ? '/products' 
+      : `/products?category=${category}`
+    
+    // 使用useRouter进行导航
+    router.push(url)
+  }
 
-    // 初始加载时获取分类
-    getCategoryFromUrl()
-
-    // 监听URL变化
-    const handleUrlChange = () => {
-      getCategoryFromUrl()
-    }
-
-    // 添加事件监听器
-    window.addEventListener('popstate', handleUrlChange)
-    window.addEventListener('pushstate', handleUrlChange)
-    window.addEventListener('replacestate', handleUrlChange)
-
-    // 清理函数
-    return () => {
-      window.removeEventListener('popstate', handleUrlChange)
-      window.removeEventListener('pushstate', handleUrlChange)
-      window.removeEventListener('replacestate', handleUrlChange)
-    }
-  }, [router])
 
   // 筛选商品
   const filteredProducts = allProducts.filter(product => {
@@ -136,56 +116,56 @@ const ProductsPage = () => {
       <h1 className="text-3xl font-bold mb-8">商品列表</h1>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* 筛选栏 */}
-        <div className="md:w-1/4">
-          <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-            <h3 className="text-lg font-bold mb-4">商品分类</h3>
-            <ul className="space-y-2">
-              <li>
-                <button
-                  onClick={() => setSelectedCategory('all')}
-                  className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'all' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-                >
-                  全部商品
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setSelectedCategory('figures')}
-                  className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'figures' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-                >
-                  人仔系列
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setSelectedCategory('sets')}
-                  className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'sets' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-                >
-                  套装系列
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setSelectedCategory('buildings')}
-                  className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'buildings' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-                >
-                  建筑系列
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setSelectedCategory('accessories')}
-                  className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'accessories' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-                >
-                  配件系列
-                </button>
-              </li>
-            </ul>
-          </div>
+          {/* 筛选栏 */}
+      <div className="md:w-1/4">
+        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+          <h3 className="text-lg font-bold mb-4">商品分类</h3>
+          <ul className="space-y-2">
+            <li>
+              <button
+                onClick={() => handleCategorySelect('all')}
+                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'all' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
+              >
+                全部商品
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleCategorySelect('figures')}
+                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'figures' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
+              >
+                人仔系列
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleCategorySelect('sets')}
+                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'sets' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
+              >
+                套装系列
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleCategorySelect('buildings')}
+                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'buildings' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
+              >
+                建筑系列
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleCategorySelect('accessories')}
+                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'accessories' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
+              >
+                配件系列
+              </button>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        {/* 商品列表 */}
+          {/* 商品列表 */}
         <div className="md:w-3/4">
           {/* 排序 */}
           <div className="flex justify-between items-center mb-6">
