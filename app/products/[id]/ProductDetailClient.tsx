@@ -1,6 +1,6 @@
-'use client'
-
+"use client"
 import { useState } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 
 interface Product {
@@ -35,6 +35,7 @@ interface Review {
 
 // 客户端组件
 const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => {
+  const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
   // 在客户端使用的状态
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
@@ -66,7 +67,7 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
           <div className="bg-white rounded-lg p-4 shadow-sm mb-4">
             <div className="relative aspect-square overflow-hidden rounded">
               <Image
-                src={`/images/${product.images[selectedImage].split('/').pop()}`}
+                src={`${basePath}/images/${product.images[selectedImage].split('/').pop()}`}
                 alt={`${product.name} - 图片 ${selectedImage + 1}`}
                 width={800}
                 height={800}
@@ -84,7 +85,7 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
                 onClick={() => setSelectedImage(index)}
               >
                 <Image
-                  src={`/images/${image.split('/').pop()}`}
+                  src={`${basePath}/images/${image.split('/').pop()}`}
                   alt={`缩略图 ${index + 1}`}
                   width={200}
                   height={200}
@@ -309,12 +310,12 @@ const ProductDetailClient = ({ product, reviews }: ProductDetailClientProps) => 
               <div className="aspect-square p-4 flex items-center justify-center bg-gray-50">
 
                 <Image
-                  src={`/images/史蒂夫和苦力怕.png`}
-                  alt="推荐商品"
-                  width={100}
-                  height={100}
-                  className="object-contain"
-                />
+                src={`${basePath}/images/史蒂夫和苦力怕.png`}
+                alt="推荐商品"
+                width={100}
+                height={100}
+                className="object-contain"
+              />
 
               </div>
               <div className="p-3">
