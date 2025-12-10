@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
 // 模拟商品数据
 const allProducts = [
@@ -76,15 +77,16 @@ const ProductsPage = () => {
   const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('default')
-  const searchParams = useSearchParams()
 
   // 从URL查询参数中获取分类
   useEffect(() => {
-    const categoryParam = searchParams.get('category')
+    // 直接从window.location获取查询参数，避免使用useSearchParams导致的构建错误
+    const urlParams = new URLSearchParams(window.location.search)
+    const categoryParam = urlParams.get('category')
     if (categoryParam) {
       setSelectedCategory(categoryParam)
     }
-  }, [searchParams])
+  }, [])
 
   // 筛选商品
   const filteredProducts = allProducts.filter(product => {
