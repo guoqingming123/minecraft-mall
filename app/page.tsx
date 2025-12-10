@@ -1,7 +1,5 @@
 "use client"
-import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 
 // 模拟商品数据
 const newProducts = [
@@ -67,28 +65,16 @@ const hotProducts = [
 ]
 
 const Home = () => {
-  const [showPopup, setShowPopup] = useState(false)
-
-  // 新用户弹窗，5秒后显示
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true)
-    }, 5000)
-
-    return () => clearTimeout(timer)
-  }, [])
 
   return (
     <div>
       {/* 轮播图 */}
       <div className="relative w-full h-[400px] bg-gray-200 overflow-hidden">
-        <Image
-          src="/images/我的世界.jpeg"
-          alt="我的世界乐高商城"
-          width={1920}
-          height={1080}
-          className="object-cover w-full h-full"
-        />
+          <img
+            src="/images/我的世界.jpeg"
+            alt="我的世界乐高商城"
+            className="object-cover w-full h-full"
+          />
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="text-center text-white">
             <h1 className="text-4xl font-bold mb-4">欢迎来到我的世界乐高商城</h1>
@@ -108,11 +94,9 @@ const Home = () => {
             {newProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} className="card">
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                  <Image
+                  <img
                     src={product.image}
                     alt={product.name}
-                    width={300}
-                    height={300}
                     className="object-contain max-h-full max-w-full"
                   />
                 </div>
@@ -137,11 +121,9 @@ const Home = () => {
             {hotProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} className="card">
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                  <Image
+                  <img
                     src={product.image}
                     alt={product.name}
-                    width={300}
-                    height={300}
                     className="object-contain max-h-full max-w-full"
                   />
                 </div>
@@ -159,35 +141,6 @@ const Home = () => {
           </div>
         </section>
       </div>
-
-      {/* 新用户弹窗 */}
-      {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold">欢迎新用户！</h3>
-              <button
-                onClick={() => setShowPopup(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-            </div>
-            <p className="mb-6">注册即送50元优惠券，快来开启你的乐高我的世界之旅吧！</p>
-            <div className="flex space-x-4">
-              <Link href="/register" className="btn btn-primary flex-1">
-                立即注册
-              </Link>
-              <button
-                onClick={() => setShowPopup(false)}
-                className="btn bg-gray-200 hover:bg-gray-300 text-gray-800 flex-1"
-              >
-                稍后再说
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
