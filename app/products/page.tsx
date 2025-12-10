@@ -1,8 +1,5 @@
-"use client"
-import Link from 'next/link'
-import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
+import ProductsContent from '../../components/ProductsContent'
 
 // 模拟商品数据
 const allProducts = [
@@ -71,152 +68,17 @@ const allProducts = [
     rating: 4.5
   }
 ]
+
+// 服务器组件 - 主页面
 const ProductsPage = () => {
-  const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
-  const [sortBy, setSortBy] = useState('default')
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  
-  // 直接从searchParams获取分类，不需要状态管理
-  const selectedCategory = searchParams.get('category') || 'all'
-
-  // 分类选择处理函数
-  const handleCategorySelect = (category: string) => {
-    const url = category === 'all' 
-      ? '/products' 
-      : `/products?category=${category}`
-    
-    // 使用useRouter进行导航
-    router.push(url)
-  }
-
-
-  // 筛选商品
-  const filteredProducts = allProducts.filter(product => {
-    if (selectedCategory === 'all') return true
-    return product.category === selectedCategory
-  })
-
-  // 排序商品
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-asc':
-        return a.price - b.price
-      case 'price-desc':
-        return b.price - a.price
-      case 'rating':
-        return b.rating - a.rating
-      default:
-        return 0
-    }
-  })
-
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">商品列表</h1>
-
-      <div className="flex flex-col md:flex-row gap-8">
-          {/* 筛选栏 */}
-      <div className="md:w-1/4">
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <h3 className="text-lg font-bold mb-4">商品分类</h3>
-          <ul className="space-y-2">
-            <li>
-              <button
-                onClick={() => handleCategorySelect('all')}
-                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'all' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-              >
-                全部商品
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => handleCategorySelect('figures')}
-                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'figures' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-              >
-                人仔系列
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => handleCategorySelect('sets')}
-                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'sets' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-              >
-                套装系列
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => handleCategorySelect('buildings')}
-                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'buildings' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-              >
-                建筑系列
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => handleCategorySelect('accessories')}
-                className={`w-full text-left px-3 py-2 rounded-md ${selectedCategory === 'accessories' ? 'bg-secondary text-white' : 'hover:bg-gray-100'}`}
-              >
-                配件系列
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-          {/* 商品列表 */}
-        <div className="md:w-3/4">
-          {/* 排序 */}
-          <div className="flex justify-between items-center mb-6">
-            <span className="text-gray-600">共 {sortedProducts.length} 件商品</span>
-            <div className="flex items-center">
-              <label htmlFor="sort" className="mr-2 text-gray-600">排序：</label>
-              <select
-                id="sort"
-                className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-secondary"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="default">默认排序</option>
-                <option value="price-asc">价格从低到高</option>
-                <option value="price-desc">价格从高到低</option>
-                <option value="rating">评分最高</option>
-              </select>
-            </div>
-          </div>
-
-          {/* 商品网格 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedProducts.map((product) => (
-              <Link key={product.id} href={`/products/${product.id}`} className="card">
-                <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                  <Image
-                    src={`${basePath}${product.image}`}
-                    alt={product.name}
-                    width={200}
-                    height={200}
-                    className="object-contain"
-                  />
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center mb-2">
-                    <span className="text-yellow-500 mr-1">⭐</span>
-                    <span className="text-sm text-gray-600">{product.rating}</span>
-                  </div>
-                  <h3 className="font-medium mb-2 truncate">{product.name}</h3>
-                  <div className="flex justify-between items-center">
-                    <span className="text-red-500 font-bold">¥{product.price}</span>
-                    <button className="text-secondary hover:text-green-700">
-                      🛒 加入购物车
-                    </button>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+      
+      {/* 使用Suspense包裹客户端组件 */}
+      <Suspense fallback={<div className="loading">加载中...</div>}>
+        <ProductsContent products={allProducts} />
+      </Suspense>
     </div>
   )
 }
