@@ -1,7 +1,6 @@
 "use client"
 import Link from 'next/link'
 import { useState } from 'react'
-import Image from 'next/image'
 
 // 模拟商品数据
 const allProducts = [
@@ -175,11 +174,9 @@ const ProductsPage = () => {
             {sortedProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} className="card">
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                  <Image
+                  <img
                     src={product.image}
                     alt={product.name}
-                    width={300}
-                    height={300}
                     className="object-contain max-h-full max-w-full"
                   />
                 </div>
