@@ -32,6 +32,8 @@ const initialCartItems = [
 ]
 
 const CartPage = () => {
+  const basePath = process.env.NODE_ENV === 'production' ? '/minecraft-mall' : ''
+  
   const [cartItems, setCartItems] = useState(initialCartItems)
 
   // 计算总价
@@ -115,12 +117,12 @@ const CartPage = () => {
                     />
                     <div className="w-20 h-20 bg-gray-200 flex items-center justify-center mr-4">
                       <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={80}
-                        height={80}
-                        className="object-contain"
-                      />
+                    src={`${basePath}${item.image}`}
+                    alt={item.name}
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
                     </div>
                     <span className="font-medium">{item.name}</span>
                   </div>
