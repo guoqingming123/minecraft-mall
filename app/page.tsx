@@ -130,10 +130,12 @@ const Home = () => {
             {hotProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} className="card">
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                  <img
-                    src={product.image}
+                  <Image
+                    src={`${basePath}${product.image}`}
                     alt={product.name}
-                    className="object-contain max-h-full max-w-full"
+                    width={200}
+                    height={200}
+                    className="object-contain"
                   />
                 </div>
                 <div className="p-4">
